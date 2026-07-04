@@ -1,6 +1,6 @@
 //
-//  PaperCalcApp.swift
-//  PaperCalc
+//  CalcSheetApp.swift
+//  CalcSheet
 //
 //  Created by xiaobo.chen on 2026/7/3.
 //
@@ -18,7 +18,7 @@ extension KeyboardShortcuts.Name {
 }
 
 @main
-struct PaperCalcApp: App {
+struct CalcSheetApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
@@ -117,13 +117,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if statusItem == nil {
                 statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
                 if let button = statusItem?.button {
-                    button.image = NSImage(systemSymbolName: "plus.forwardslash.minus", accessibilityDescription: "PaperCalc")
+                    button.image = NSImage(systemSymbolName: "plus.forwardslash.minus", accessibilityDescription: "CalcSheet")
                 }
 
                 let menu = NSMenu()
 
                 let showHideItem = NSMenuItem(
-                    title: "显示/隐藏 PaperCalc",
+                    title: "显示/隐藏 CalcSheet",
                     action: #selector(toggleFromMenu),
                     keyEquivalent: ""
                 )
@@ -143,7 +143,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 menu.addItem(NSMenuItem.separator())
 
                 let quitItem = NSMenuItem(
-                    title: "退出 PaperCalc",
+                    title: "退出 CalcSheet",
                     action: #selector(quitApp),
                     keyEquivalent: "q"
                 )
@@ -183,7 +183,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             backing: .buffered,
             defer: false
         )
-        window.title = "PaperCalc 设置"
+        window.title = "CalcSheet 设置"
         window.center()
         window.isReleasedWhenClosed = false
         window.contentView = NSHostingView(rootView: SettingsView())

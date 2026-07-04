@@ -11,13 +11,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7937BF782FF7A2B100641B9B /* PaperCalc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaperCalc.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7937BF782FF7A2B100641B9B /* CalcSheet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalcSheet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		7937BF7A2FF7A2B100641B9B /* PaperCalc */ = {
+		7937BF7A2FF7A2B100641B9B /* CalcSheet */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PaperCalc;
+			path = CalcSheet;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -37,7 +37,7 @@
 		7937BF6F2FF7A2B100641B9B = {
 			isa = PBXGroup;
 			children = (
-				7937BF7A2FF7A2B100641B9B /* PaperCalc */,
+				7937BF7A2FF7A2B100641B9B /* CalcSheet */,
 				7937BF792FF7A2B100641B9B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -45,7 +45,7 @@
 		7937BF792FF7A2B100641B9B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7937BF782FF7A2B100641B9B /* PaperCalc.app */,
+				7937BF782FF7A2B100641B9B /* CalcSheet.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -53,9 +53,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7937BF772FF7A2B100641B9B /* PaperCalc */ = {
+		7937BF772FF7A2B100641B9B /* CalcSheet */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7937BF832FF7A2B200641B9B /* Build configuration list for PBXNativeTarget "PaperCalc" */;
+			buildConfigurationList = 7937BF832FF7A2B200641B9B /* Build configuration list for PBXNativeTarget "CalcSheet" */;
 			buildPhases = (
 				7937BF742FF7A2B100641B9B /* Sources */,
 				7937BF752FF7A2B100641B9B /* Frameworks */,
@@ -66,14 +66,14 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				7937BF7A2FF7A2B100641B9B /* PaperCalc */,
+				7937BF7A2FF7A2B100641B9B /* CalcSheet */,
 			);
-			name = PaperCalc;
+			name = CalcSheet;
 			packageProductDependencies = (
 				7937BF952FF8F47E00641B9B /* KeyboardShortcuts */,
 			);
-			productName = PaperCalc;
-			productReference = 7937BF782FF7A2B100641B9B /* PaperCalc.app */;
+			productName = CalcSheet;
+			productReference = 7937BF782FF7A2B100641B9B /* CalcSheet.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -91,7 +91,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7937BF732FF7A2B100641B9B /* Build configuration list for PBXProject "PaperCalc" */;
+			buildConfigurationList = 7937BF732FF7A2B100641B9B /* Build configuration list for PBXProject "CalcSheet" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -108,7 +108,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7937BF772FF7A2B100641B9B /* PaperCalc */,
+				7937BF772FF7A2B100641B9B /* CalcSheet */,
 			);
 		};
 /* End PBXProject section */
@@ -272,7 +272,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jove.PaperCalc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jove.CalcSheet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -302,7 +302,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jove.PaperCalc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jove.CalcSheet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -317,7 +317,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7937BF732FF7A2B100641B9B /* Build configuration list for PBXProject "PaperCalc" */ = {
+		7937BF732FF7A2B100641B9B /* Build configuration list for PBXProject "CalcSheet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7937BF812FF7A2B200641B9B /* Debug */,
@@ -326,7 +326,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7937BF832FF7A2B200641B9B /* Build configuration list for PBXNativeTarget "PaperCalc" */ = {
+		7937BF832FF7A2B200641B9B /* Build configuration list for PBXNativeTarget "CalcSheet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7937BF842FF7A2B200641B9B /* Debug */,

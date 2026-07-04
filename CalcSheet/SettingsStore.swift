@@ -1,6 +1,6 @@
 //
 //  SettingsStore.swift
-//  PaperCalc
+//  CalcSheet
 //
 //  Created by xiaobo.chen on 2026/7/3.
 //
