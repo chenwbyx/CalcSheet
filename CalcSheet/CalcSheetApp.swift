@@ -70,7 +70,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         panel.level = .floating
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         panel.contentView = NSHostingView(rootView: ContentView())
-        panel.contentView = NSHostingView(rootView: ContentView())
+
+        // 窗口因失去焦点自动隐藏时，保存位置
+        panel.willAutoHide = { [weak self] in
+            self?.savePanelFrame()
+        }
 
         panel.standardWindowButton(.closeButton)?.isHidden = true
         panel.standardWindowButton(.miniaturizeButton)?.isHidden = true
@@ -167,6 +171,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func showSettings() {
+        // 打开设置时隐藏计算器面板，避免遮挡
+        if panel.isVisible {
+            savePanelFrame()
+            panel.orderOut(nil)
+        }
+
         // 复用已有窗口，避免重复创建
         if let window = settingsWindow, window.isVisible {
             window.makeKeyAndOrderFront(nil)
@@ -275,7 +285,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func showPanel() {
         // 全局快捷键呼出时，先关闭系统设置窗口，避免共存
         closeSystemSettingsWindow()
-        panel.center()
+        // 恢复保存的位置（如果启用）
+        if settings.rememberWindowState,
+           let data = UserDefaults.standard.data(forKey: "panelFrame"),
+           let frame = try? NSKeyedUnarchiver.unarchivedObject(ofClass: NSValue.self, from: data)?.rectValue {
+            panel.setFrame(frame, display: true)
+        } else {
+            panel.center()
+        }
         panel.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
@@ -298,12 +315,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 /// - Pin=false: app 失去焦点时自动隐藏，恢复普通 floating panel 行为
 private final class PinnablePanel: NSPanel {
     var isPinned = false
+    /// 窗口因失去焦点自动隐藏前调用，用于保存窗口位置
+    var willAutoHide: (() -> Void)?
 
     override func resignKey() {
         super.resignKey()
         // 只在「整个 app 失去焦点」时才隐藏；
         // 如果是同 app 内其他窗口（如 Settings）抢了 key window，则保持可见。
         if !isPinned && !NSApp.isActive {
+            willAutoHide?()
             orderOut(nil)
         }
     }
