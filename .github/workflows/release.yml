@@ -1,0 +1,80 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    name: Build and Release
+    runs-on: macos-15
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Select Xcode
+      run: sudo xcode-select -s /Applications/Xcode_16.0.app
+
+    - name: Build Universal App
+      run: |
+        xcodebuild -project CalcSheet.xcodeproj \
+                   -scheme CalcSheet \
+                   -configuration Release \
+                   -arch arm64 \
+                   -arch x86_64 \
+                   CODE_SIGN_IDENTITY="-" \
+                   CODE_SIGNING_REQUIRED=NO \
+                   CODE_SIGNING_ALLOWED=NO \
+                   ONLY_ACTIVE_ARCH=NO \
+                   CONFIGURATION_BUILD_DIR=${{ github.workspace }}/build/Release \
+                   clean build
+
+    - name: Create DMG
+      run: |
+        # Create a temporary directory for the DMG contents
+        mkdir -p dmg_temp
+        cp -R build/Release/CalcSheet.app dmg_temp/
+        ln -s /Applications dmg_temp/Applications
+
+        # Create the DMG
+        hdiutil create -volname "CalcSheet" \
+                       -srcfolder dmg_temp \
+                       -ov -format UDZO \
+                       CalcSheet.dmg
+
+    - name: Ad-hoc Sign DMG
+      run: |
+        codesign --sign - CalcSheet.dmg
+
+    - name: Get Version from Tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: CalcSheet v${{ steps.get_version.outputs.VERSION }}
+        draft: false
+        prerelease: false
+
+    - name: Upload DMG to Release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./CalcSheet.dmg
+        asset_name: CalcSheet-${{ steps.get_version.outputs.VERSION }}.dmg
+        asset_content_type: application/x-apple-diskimage
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: CalcSheet-build
+        path: build/Release/CalcSheet.app
