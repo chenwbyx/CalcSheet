@@ -388,7 +388,7 @@ struct SettingsView: View {
                 // License
                 HStack {
                     HStack(spacing: 10) {
-                        Image(systemName: "scale.3d3")
+                        Image(systemName: "doc.text")
                             .font(.system(size: 15))
                             .foregroundStyle(.tint)
                             .frame(width: 28)
