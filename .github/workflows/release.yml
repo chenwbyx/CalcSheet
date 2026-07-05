@@ -19,36 +19,58 @@ jobs:
       with:
         xcode-version: '16.3'
 
-    - name: Build Universal App
+    - name: Build arm64 (Apple Silicon)
       run: |
         xcodebuild -project CalcSheet.xcodeproj \
                    -scheme CalcSheet \
                    -configuration Release \
                    -arch arm64 \
-                   -arch x86_64 \
+                   ONLY_ACTIVE_ARCH=NO \
+                   CONFIGURATION_BUILD_DIR=${{ github.workspace }}/build/Release-arm64 \
                    CODE_SIGN_IDENTITY="-" \
                    CODE_SIGNING_REQUIRED=NO \
                    CODE_SIGNING_ALLOWED=NO \
-                   ONLY_ACTIVE_ARCH=NO \
-                   CONFIGURATION_BUILD_DIR=${{ github.workspace }}/build/Release \
                    clean build
 
-    - name: Create DMG
+    - name: Build x86_64 (Intel)
       run: |
-        # Create a temporary directory for the DMG contents
-        mkdir -p dmg_temp
-        cp -R build/Release/CalcSheet.app dmg_temp/
-        ln -s /Applications dmg_temp/Applications
+        xcodebuild -project CalcSheet.xcodeproj \
+                   -scheme CalcSheet \
+                   -configuration Release \
+                   -arch x86_64 \
+                   ONLY_ACTIVE_ARCH=NO \
+                   CONFIGURATION_BUILD_DIR=${{ github.workspace }}/build/Release-x86_64 \
+                   CODE_SIGN_IDENTITY="-" \
+                   CODE_SIGNING_REQUIRED=NO \
+                   CODE_SIGNING_ALLOWED=NO \
+                   clean build
 
-        # Create the DMG
+    - name: Create arm64 DMG
+      run: |
+        mkdir -p dmg_temp
+        cp -R build/Release-arm64/CalcSheet.app dmg_temp/
+        ln -s /Applications dmg_temp/Applications
         hdiutil create -volname "CalcSheet" \
                        -srcfolder dmg_temp \
                        -ov -format UDZO \
-                       CalcSheet.dmg
+                       CalcSheet-arm64.dmg
+        rm -rf dmg_temp
 
-    - name: Ad-hoc Sign DMG
+    - name: Create x86_64 DMG
       run: |
-        codesign --sign - CalcSheet.dmg
+        mkdir -p dmg_temp
+        cp -R build/Release-x86_64/CalcSheet.app dmg_temp/
+        ln -s /Applications dmg_temp/Applications
+        hdiutil create -volname "CalcSheet" \
+                       -srcfolder dmg_temp \
+                       -ov -format UDZO \
+                       CalcSheet-x86_64.dmg
+        rm -rf dmg_temp
+
+    - name: Ad-hoc Sign DMGs
+      run: |
+        codesign --sign - CalcSheet-arm64.dmg
+        codesign --sign - CalcSheet-x86_64.dmg
 
     - name: Get Version from Tag
       id: get_version
@@ -65,18 +87,22 @@ jobs:
         draft: false
         prerelease: false
 
-    - name: Upload DMG to Release
+    - name: Upload arm64 DMG
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./CalcSheet.dmg
-        asset_name: CalcSheet-${{ steps.get_version.outputs.VERSION }}.dmg
+        asset_path: ./CalcSheet-arm64.dmg
+        asset_name: CalcSheet-${{ steps.get_version.outputs.VERSION }}-arm64.dmg
         asset_content_type: application/x-apple-diskimage
 
-    - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v4
+    - name: Upload x86_64 DMG
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: CalcSheet-build
-        path: build/Release/CalcSheet.app
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./CalcSheet-x86_64.dmg
+        asset_name: CalcSheet-${{ steps.get_version.outputs.VERSION }}-x86_64.dmg
+        asset_content_type: application/x-apple-diskimage
