@@ -63,6 +63,10 @@
 "hotkey.toggle.subtitle" = "全局快捷键，可在任意应用中呼出";
 
 /* SettingsView.swift - 关于 */
-"about.version" = "版本";
-"about.version.value" = "当前版本 1.0.0";
-"about.checkUpdate" = "检查更新";
+"about.tagline" = "便签纸风格极简计算器";
+"about.version.value" = "版本 1.0.0";
+"about.github" = "源代码";
+"about.reportIssue" = "反馈问题";
+"about.reportIssue.subtitle" = "发现 Bug？在 GitHub 上告诉我们";
+"about.license" = "开源协议";
+"about.credits" = "致谢";

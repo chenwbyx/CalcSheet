@@ -336,35 +336,113 @@ struct SettingsView: View {
         VStack(alignment: .leading, spacing: 12) {
             sectionTitle(NSLocalizedString("section.about", comment: ""))
             SettingsCard {
+                // App Info
+                HStack(spacing: 14) {
+                    Image(systemName: "plus.forwardslash.minus")
+                        .font(.system(size: 28))
+                        .foregroundStyle(.white)
+                        .frame(width: 56, height: 56)
+                        .background(
+                            LinearGradient(
+                                colors: [Color(red: 0.75, green: 0.53, blue: 0.26), Color(red: 0.91, green: 0.66, blue: 0.16)],
+                                startPoint: .top, endPoint: .bottom
+                            )
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("CalcSheet")
+                            .font(.system(size: 15, weight: .semibold))
+                        Text(NSLocalizedString("about.tagline", comment: ""))
+                            .font(.system(size: 11))
+                            .foregroundStyle(.secondary)
+                        Text(NSLocalizedString("about.version.value", comment: ""))
+                            .font(.system(size: 11))
+                            .foregroundStyle(.tertiary)
+                    }
+                    Spacer()
+                }
+                .padding(.vertical, 4)
+
+                Divider().padding(.leading, 70)
+
+                // GitHub
+                LinkRow(
+                    icon: "chevron.left.forwardslash.chevron.right",
+                    title: NSLocalizedString("about.github", comment: ""),
+                    subtitle: "github.com/chenwbyx/CalcSheet",
+                    url: "https://github.com/chenwbyx/CalcSheet"
+                )
+
+                Divider().padding(.leading, 38)
+
+                // Report Issue
+                LinkRow(
+                    icon: "exclamationmark.bubble",
+                    title: NSLocalizedString("about.reportIssue", comment: ""),
+                    subtitle: NSLocalizedString("about.reportIssue.subtitle", comment: ""),
+                    url: "https://github.com/chenwbyx/CalcSheet/issues"
+                )
+
+                Divider().padding(.leading, 38)
+
+                // License
                 HStack {
                     HStack(spacing: 10) {
-                        Image(systemName: "info.circle")
-                            .font(.system(size: 16))
+                        Image(systemName: "scale.3d3")
+                            .font(.system(size: 15))
                             .foregroundStyle(.tint)
                             .frame(width: 28)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(NSLocalizedString("about.version", comment: ""))
-                                .font(.system(size: 13, weight: .medium))
-                            Text(NSLocalizedString("about.version.value", comment: ""))
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(NSLocalizedString("about.license", comment: ""))
+                                .font(.system(size: 13))
+                            Text("MIT License")
                                 .font(.system(size: 11))
                                 .foregroundStyle(.secondary)
                         }
                     }
                     Spacer()
-                    Button {
-                        // Check for updates (placeholder)
-                    } label: {
-                        HStack(spacing: 4) {
-                            Text(NSLocalizedString("about.checkUpdate", comment: ""))
-                                .font(.system(size: 13))
-                            Image(systemName: "chevron.right")
-                                .font(.system(size: 10))
-                        }
-                        .foregroundStyle(.secondary)
-                    }
-                    .buttonStyle(.plain)
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, 6)
+
+                Divider().padding(.leading, 38)
+
+                // Credits
+                HStack {
+                    HStack(spacing: 10) {
+                        Image(systemName: "heart")
+                            .font(.system(size: 15))
+                            .foregroundStyle(.tint)
+                            .frame(width: 28)
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(NSLocalizedString("about.credits", comment: ""))
+                                .font(.system(size: 13))
+                            Text("KeyboardShortcuts by @soffes")
+                                .font(.system(size: 11))
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    Spacer()
+                }
+                .padding(.vertical, 6)
+
+                Divider().padding(.leading, 38)
+
+                // Copyright
+                HStack {
+                    HStack(spacing: 10) {
+                        Image(systemName: "copyright")
+                            .font(.system(size: 15))
+                            .foregroundStyle(.tint)
+                            .frame(width: 28)
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text("© 2026 xiaobo.chen")
+                                .font(.system(size: 12))
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    Spacer()
+                }
+                .padding(.vertical, 6)
             }
         }
         .id(SettingsSection.about)
@@ -429,6 +507,40 @@ struct SettingsToggleRow: View {
             Toggle("", isOn: Binding(get: isOn, set: onChange))
                 .toggleStyle(.switch)
                 .labelsHidden()
+        }
+        .padding(.vertical, 6)
+    }
+}
+
+// MARK: - Link Row
+
+struct LinkRow: View {
+    let icon: String
+    let title: String
+    let subtitle: String
+    let url: String
+
+    var body: some View {
+        HStack {
+            HStack(spacing: 10) {
+                Image(systemName: icon)
+                    .font(.system(size: 15))
+                    .foregroundStyle(.tint)
+                    .frame(width: 28)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(title)
+                        .font(.system(size: 13))
+                    Text(subtitle)
+                        .font(.system(size: 11))
+                        .foregroundStyle(.secondary)
+                }
+            }
+            Spacer()
+            Link(destination: URL(string: url)!) {
+                Image(systemName: "arrow.up.forward.square")
+                    .font(.system(size: 14))
+                    .foregroundStyle(.secondary)
+            }
         }
         .padding(.vertical, 6)
     }

@@ -63,6 +63,10 @@
 "hotkey.toggle.subtitle" = "Global hotkey, works in any app";
 
 /* SettingsView.swift - About */
-"about.version" = "Version";
-"about.version.value" = "Current Version 1.0.0";
-"about.checkUpdate" = "Check for Updates";
+"about.tagline" = "Minimalist calculator in sticky-note style";
+"about.version.value" = "Version 1.0.0";
+"about.github" = "Source Code";
+"about.reportIssue" = "Report an Issue";
+"about.reportIssue.subtitle" = "Found a bug? Let us know on GitHub";
+"about.license" = "License";
+"about.credits" = "Credits";
