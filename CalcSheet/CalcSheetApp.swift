@@ -123,7 +123,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let menu = NSMenu()
 
                 let showHideItem = NSMenuItem(
-                    title: "显示/隐藏 CalcSheet",
+                    title: NSLocalizedString("menu.toggle", comment: ""),
                     action: #selector(toggleFromMenu),
                     keyEquivalent: ""
                 )
@@ -133,7 +133,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 menu.addItem(NSMenuItem.separator())
 
                 let settingsItem = NSMenuItem(
-                    title: "设置...",
+                    title: NSLocalizedString("menu.settings", comment: ""),
                     action: #selector(showSettings),
                     keyEquivalent: ","
                 )
@@ -143,7 +143,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 menu.addItem(NSMenuItem.separator())
 
                 let quitItem = NSMenuItem(
-                    title: "退出 CalcSheet",
+                    title: NSLocalizedString("menu.quit", comment: ""),
                     action: #selector(quitApp),
                     keyEquivalent: "q"
                 )
@@ -183,7 +183,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             backing: .buffered,
             defer: false
         )
-        window.title = "CalcSheet 设置"
+        window.title = NSLocalizedString("window.settings.title", comment: "")
         window.center()
         window.isReleasedWhenClosed = false
         window.contentView = NSHostingView(rootView: SettingsView())

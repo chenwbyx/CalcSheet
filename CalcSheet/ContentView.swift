@@ -34,7 +34,7 @@ struct ContentView: View {
                             .frame(width: 28, height: 28)
                     }
                     .buttonStyle(.plain)
-                    .help(settings.isPinned ? "取消固定 (P)" : "固定窗口 (⌘P)")
+                    .help(settings.isPinned ? NSLocalizedString("tooltip.pin.on", comment: "") : NSLocalizedString("tooltip.pin.off", comment: ""))
                     .keyboardShortcut("p", modifiers: .command)
 
                     Spacer()
@@ -47,7 +47,7 @@ struct ContentView: View {
                     }
                     .buttonStyle(.plain)
                     .keyboardShortcut("r", modifiers: .command)
-                    .help("清空 (⌘R)")
+                    .help(NSLocalizedString("tooltip.clear", comment: ""))
                 }
                 .padding(.horizontal, 14)
                 .padding(.top, 14)

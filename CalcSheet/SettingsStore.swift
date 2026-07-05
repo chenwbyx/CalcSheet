@@ -10,10 +10,17 @@ import SwiftUI
 import ServiceManagement
 
 enum AppAppearance: String, CaseIterable, Identifiable {
-    case system = "自动"
-    case dark = "深色"
-    case light = "浅色"
+    case system
+    case dark
+    case light
     var id: String { rawValue }
+    var displayName: String {
+        switch self {
+        case .system: return NSLocalizedString("appearance.system", comment: "")
+        case .dark:   return NSLocalizedString("appearance.dark", comment: "")
+        case .light:  return NSLocalizedString("appearance.light", comment: "")
+        }
+    }
 }
 
 @Observable

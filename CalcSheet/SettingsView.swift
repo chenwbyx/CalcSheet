@@ -8,16 +8,26 @@
 import SwiftUI
 import KeyboardShortcuts
 
-// MARK: - 侧边栏分类（5 个，与右侧分组一一对应）
+// MARK: - Sidebar sections
 
 enum SettingsSection: String, CaseIterable, Identifiable, Hashable {
-    case launch     = "启动"
-    case behavior   = "行为"
-    case appearance = "外观"
-    case hotkey     = "快捷键"
-    case about      = "关于"
+    case launch
+    case behavior
+    case appearance
+    case hotkey
+    case about
 
     var id: String { rawValue }
+
+    var displayName: String {
+        switch self {
+        case .launch:     return NSLocalizedString("sidebar.launch", comment: "")
+        case .behavior:   return NSLocalizedString("sidebar.behavior", comment: "")
+        case .appearance: return NSLocalizedString("sidebar.appearance", comment: "")
+        case .hotkey:     return NSLocalizedString("sidebar.hotkey", comment: "")
+        case .about:      return NSLocalizedString("sidebar.about", comment: "")
+        }
+    }
 
     var icon: String {
         switch self {
@@ -31,16 +41,16 @@ enum SettingsSection: String, CaseIterable, Identifiable, Hashable {
 
     var subtitle: String {
         switch self {
-        case .launch:     return "开机与菜单栏"
-        case .behavior:   return "启动与计算行为"
-        case .appearance: return "主题、字体与颜色"
-        case .hotkey:     return "全局快捷键设置"
-        case .about:      return "应用信息与支持"
+        case .launch:     return NSLocalizedString("sidebar.launch.subtitle", comment: "")
+        case .behavior:   return NSLocalizedString("sidebar.behavior.subtitle", comment: "")
+        case .appearance: return NSLocalizedString("sidebar.appearance.subtitle", comment: "")
+        case .hotkey:     return NSLocalizedString("sidebar.hotkey.subtitle", comment: "")
+        case .about:      return NSLocalizedString("sidebar.about.subtitle", comment: "")
         }
     }
 }
 
-// MARK: - 主视图
+// MARK: - Main View
 
 struct SettingsView: View {
     @State private var selected: SettingsSection = .launch
@@ -77,7 +87,7 @@ struct SettingsView: View {
         .frame(minWidth: 720, minHeight: 520)
     }
 
-    // MARK: - 侧边栏
+    // MARK: - Sidebar
 
     private var sidebar: some View {
         List(SettingsSection.allCases, selection: $selected) { section in
@@ -87,7 +97,7 @@ struct SettingsView: View {
                     .foregroundStyle(.tint)
                     .frame(width: 28)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(section.rawValue)
+                    Text(section.displayName)
                         .font(.system(size: 13, weight: .medium))
                     Text(section.subtitle)
                         .font(.system(size: 11))
@@ -107,16 +117,16 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: - 启动
+    // MARK: - Launch / General
 
     private var launchSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            sectionTitle("启动")
+            sectionTitle(NSLocalizedString("section.launch", comment: ""))
             SettingsCard {
                 SettingsToggleRow(
                     icon: "power",
-                    title: "开机时启动",
-                    subtitle: "登录系统时自动启动应用"
+                    title: NSLocalizedString("toggle.launchAtLogin.title", comment: ""),
+                    subtitle: NSLocalizedString("toggle.launchAtLogin.subtitle", comment: "")
                 ) {
                     SettingsStore.shared.launchAtLogin
                 } onChange: {
@@ -124,8 +134,8 @@ struct SettingsView: View {
                 }
                 SettingsToggleRow(
                     icon: "menubar.rectangle",
-                    title: "在菜单栏显示图标",
-                    subtitle: "在菜单栏中显示应用图标以便快速访问"
+                    title: NSLocalizedString("toggle.showMenuBarIcon.title", comment: ""),
+                    subtitle: NSLocalizedString("toggle.showMenuBarIcon.subtitle", comment: "")
                 ) {
                     SettingsStore.shared.showMenuBarIcon
                 } onChange: { newValue in
@@ -137,16 +147,16 @@ struct SettingsView: View {
         .id(SettingsSection.launch)
     }
 
-    // MARK: - 行为
+    // MARK: - Behavior
 
     private var behaviorSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            sectionTitle("行为")
+            sectionTitle(NSLocalizedString("section.behavior", comment: ""))
             SettingsCard {
                 SettingsToggleRow(
                     icon: "macwindow",
-                    title: "启动时显示窗口",
-                    subtitle: "应用启动时自动显示主窗口"
+                    title: NSLocalizedString("toggle.showWindowOnLaunch.title", comment: ""),
+                    subtitle: NSLocalizedString("toggle.showWindowOnLaunch.subtitle", comment: "")
                 ) {
                     SettingsStore.shared.showWindowOnLaunch
                 } onChange: {
@@ -154,8 +164,8 @@ struct SettingsView: View {
                 }
                 SettingsToggleRow(
                     icon: "doc.on.doc",
-                    title: "自动复制结果",
-                    subtitle: "计算结果自动复制到剪贴板"
+                    title: NSLocalizedString("toggle.autoCopyResult.title", comment: ""),
+                    subtitle: NSLocalizedString("toggle.autoCopyResult.subtitle", comment: "")
                 ) {
                     SettingsStore.shared.autoCopyResult
                 } onChange: {
@@ -163,8 +173,8 @@ struct SettingsView: View {
                 }
                 SettingsToggleRow(
                     icon: "rectangle.dashed",
-                    title: "保留窗口状态",
-                    subtitle: "记住窗口大小和位置"
+                    title: NSLocalizedString("toggle.rememberWindowState.title", comment: ""),
+                    subtitle: NSLocalizedString("toggle.rememberWindowState.subtitle", comment: "")
                 ) {
                     SettingsStore.shared.rememberWindowState
                 } onChange: {
@@ -175,13 +185,13 @@ struct SettingsView: View {
         .id(SettingsSection.behavior)
     }
 
-    // MARK: - 外观
+    // MARK: - Appearance
 
     private var appearanceSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            sectionTitle("外观")
+            sectionTitle(NSLocalizedString("section.appearance", comment: ""))
             SettingsCard {
-                // 应用外观
+                // App Appearance
                 HStack {
                     HStack(spacing: 10) {
                         Image(systemName: "app.badge")
@@ -189,9 +199,9 @@ struct SettingsView: View {
                             .foregroundStyle(.tint)
                             .frame(width: 28)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("应用外观")
+                            Text(NSLocalizedString("appearance.app.title", comment: ""))
                                 .font(.system(size: 13, weight: .medium))
-                            Text("自动跟随系统，也可以固定为深色或浅色")
+                            Text(NSLocalizedString("appearance.app.subtitle", comment: ""))
                                 .font(.system(size: 11))
                                 .foregroundStyle(.secondary)
                         }
@@ -202,7 +212,7 @@ struct SettingsView: View {
                         set: { SettingsStore.shared.appearance = $0 }
                     )) {
                         ForEach(AppAppearance.allCases) { item in
-                            Text(item.rawValue).tag(item)
+                            Text(item.displayName).tag(item)
                         }
                     }
                     .pickerStyle(.segmented)
@@ -212,7 +222,7 @@ struct SettingsView: View {
 
                 Divider().padding(.leading, 38)
 
-                // 字体大小
+                // Font Size
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         HStack(spacing: 10) {
@@ -221,9 +231,9 @@ struct SettingsView: View {
                                 .foregroundStyle(.tint)
                                 .frame(width: 28)
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("字体大小  Aa")
+                                Text(NSLocalizedString("appearance.fontSize.title", comment: ""))
                                     .font(.system(size: 13, weight: .medium))
-                                Text("调整编辑器和结果的字体大小")
+                                Text(NSLocalizedString("appearance.fontSize.subtitle", comment: ""))
                                     .font(.system(size: 11))
                                     .foregroundStyle(.secondary)
                             }
@@ -243,18 +253,18 @@ struct SettingsView: View {
                         step: 1
                     )
                     HStack {
-                        Text("小").font(.system(size: 10)).foregroundStyle(.tertiary)
+                        Text(NSLocalizedString("appearance.fontSize.small", comment: "")).font(.system(size: 10)).foregroundStyle(.tertiary)
                         Spacer()
-                        Text("默认").font(.system(size: 10)).foregroundStyle(.tertiary)
+                        Text(NSLocalizedString("appearance.fontSize.default", comment: "")).font(.system(size: 10)).foregroundStyle(.tertiary)
                         Spacer()
-                        Text("大").font(.system(size: 10)).foregroundStyle(.tertiary)
+                        Text(NSLocalizedString("appearance.fontSize.large", comment: "")).font(.system(size: 10)).foregroundStyle(.tertiary)
                     }
                 }
                 .padding(.vertical, 4)
 
                 Divider().padding(.leading, 38)
 
-                // 编辑器字体
+                // Editor Font
                 HStack {
                     HStack(spacing: 10) {
                         Image(systemName: "textformat")
@@ -262,9 +272,9 @@ struct SettingsView: View {
                             .foregroundStyle(.tint)
                             .frame(width: 28)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("编辑器字体")
+                            Text(NSLocalizedString("appearance.editorFont.title", comment: ""))
                                 .font(.system(size: 13, weight: .medium))
-                            Text("选择编辑器使用的字体")
+                            Text(NSLocalizedString("appearance.editorFont.subtitle", comment: ""))
                                 .font(.system(size: 11))
                                 .foregroundStyle(.secondary)
                         }
@@ -291,11 +301,11 @@ struct SettingsView: View {
         .id(SettingsSection.appearance)
     }
 
-    // MARK: - 快捷键
+    // MARK: - Shortcuts
 
     private var hotkeySection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            sectionTitle("快捷键")
+            sectionTitle(NSLocalizedString("section.hotkey", comment: ""))
             SettingsCard {
                 HStack {
                     HStack(spacing: 10) {
@@ -304,9 +314,9 @@ struct SettingsView: View {
                             .foregroundStyle(.tint)
                             .frame(width: 28)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("显示/隐藏窗口")
+                            Text(NSLocalizedString("hotkey.toggle.title", comment: ""))
                                 .font(.system(size: 13, weight: .medium))
-                            Text("全局快捷键，可在任意应用中呼出")
+                            Text(NSLocalizedString("hotkey.toggle.subtitle", comment: ""))
                                 .font(.system(size: 11))
                                 .foregroundStyle(.secondary)
                         }
@@ -320,11 +330,11 @@ struct SettingsView: View {
         .id(SettingsSection.hotkey)
     }
 
-    // MARK: - 关于
+    // MARK: - About
 
     private var aboutSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            sectionTitle("关于")
+            sectionTitle(NSLocalizedString("section.about", comment: ""))
             SettingsCard {
                 HStack {
                     HStack(spacing: 10) {
@@ -333,19 +343,19 @@ struct SettingsView: View {
                             .foregroundStyle(.tint)
                             .frame(width: 28)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("版本")
+                            Text(NSLocalizedString("about.version", comment: ""))
                                 .font(.system(size: 13, weight: .medium))
-                            Text("当前版本 1.0.0")
+                            Text(NSLocalizedString("about.version.value", comment: ""))
                                 .font(.system(size: 11))
                                 .foregroundStyle(.secondary)
                         }
                     }
                     Spacer()
                     Button {
-                        // 检查更新（预留）
+                        // Check for updates (placeholder)
                     } label: {
                         HStack(spacing: 4) {
-                            Text("检查更新")
+                            Text(NSLocalizedString("about.checkUpdate", comment: ""))
                                 .font(.system(size: 13))
                             Image(systemName: "chevron.right")
                                 .font(.system(size: 10))
@@ -360,7 +370,7 @@ struct SettingsView: View {
         .id(SettingsSection.about)
     }
 
-    // MARK: - 小组件
+    // MARK: - Helpers
 
     private func sectionTitle(_ text: String) -> some View {
         Text(text)
@@ -369,7 +379,7 @@ struct SettingsView: View {
     }
 }
 
-// MARK: - 卡片容器
+// MARK: - Card Container
 
 struct SettingsCard<Content: View>: View {
     @ViewBuilder let content: Content
@@ -391,7 +401,7 @@ struct SettingsCard<Content: View>: View {
     }
 }
 
-// MARK: - Toggle 行
+// MARK: - Toggle Row
 
 struct SettingsToggleRow: View {
     let icon: String
@@ -424,7 +434,7 @@ struct SettingsToggleRow: View {
     }
 }
 
-// MARK: - 通知
+// MARK: - Notifications
 
 extension Notification.Name {
     static let scrollToSettingsSection = Notification.Name("scrollToSettingsSection")

@@ -1,0 +1,68 @@
+/* CalcSheetApp.swift - 菜单栏 */
+"menu.toggle" = "显示/隐藏 CalcSheet";
+"menu.settings" = "设置...";
+"menu.quit" = "退出 CalcSheet";
+"window.settings.title" = "CalcSheet 设置";
+
+/* ContentView.swift - 提示 */
+"tooltip.pin.on" = "取消固定 (P)";
+"tooltip.pin.off" = "固定窗口 (⌘P)";
+"tooltip.clear" = "清空 (⌘R)";
+
+/* SettingsStore.swift - 外观 */
+"appearance.system" = "自动";
+"appearance.dark" = "深色";
+"appearance.light" = "浅色";
+
+/* SettingsView.swift - 侧边栏 */
+"sidebar.launch" = "启动";
+"sidebar.launch.subtitle" = "开机与菜单栏";
+"sidebar.behavior" = "行为";
+"sidebar.behavior.subtitle" = "启动与计算行为";
+"sidebar.appearance" = "外观";
+"sidebar.appearance.subtitle" = "主题、字体与颜色";
+"sidebar.hotkey" = "快捷键";
+"sidebar.hotkey.subtitle" = "全局快捷键设置";
+"sidebar.about" = "关于";
+"sidebar.about.subtitle" = "应用信息与支持";
+
+/* SettingsView.swift - 分组标题 */
+"section.launch" = "启动";
+"section.behavior" = "行为";
+"section.appearance" = "外观";
+"section.hotkey" = "快捷键";
+"section.about" = "关于";
+
+/* SettingsView.swift - 启动 */
+"toggle.launchAtLogin.title" = "开机时启动";
+"toggle.launchAtLogin.subtitle" = "登录系统时自动启动应用";
+"toggle.showMenuBarIcon.title" = "在菜单栏显示图标";
+"toggle.showMenuBarIcon.subtitle" = "在菜单栏中显示应用图标以便快速访问";
+
+/* SettingsView.swift - 行为 */
+"toggle.showWindowOnLaunch.title" = "启动时显示窗口";
+"toggle.showWindowOnLaunch.subtitle" = "应用启动时自动显示主窗口";
+"toggle.autoCopyResult.title" = "自动复制结果";
+"toggle.autoCopyResult.subtitle" = "计算结果自动复制到剪贴板";
+"toggle.rememberWindowState.title" = "保留窗口状态";
+"toggle.rememberWindowState.subtitle" = "记住窗口大小和位置";
+
+/* SettingsView.swift - 外观 */
+"appearance.app.title" = "应用外观";
+"appearance.app.subtitle" = "自动跟随系统，也可以固定为深色或浅色";
+"appearance.fontSize.title" = "字体大小  Aa";
+"appearance.fontSize.subtitle" = "调整编辑器和结果的字体大小";
+"appearance.fontSize.small" = "小";
+"appearance.fontSize.default" = "默认";
+"appearance.fontSize.large" = "大";
+"appearance.editorFont.title" = "编辑器字体";
+"appearance.editorFont.subtitle" = "选择编辑器使用的字体";
+
+/* SettingsView.swift - 快捷键 */
+"hotkey.toggle.title" = "显示/隐藏窗口";
+"hotkey.toggle.subtitle" = "全局快捷键，可在任意应用中呼出";
+
+/* SettingsView.swift - 关于 */
+"about.version" = "版本";
+"about.version.value" = "当前版本 1.0.0";
+"about.checkUpdate" = "检查更新";
