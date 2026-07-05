@@ -5,7 +5,7 @@
 <h1 align="center">CalcSheet</h1>
 
 <p align="center">
-  A minimalist calculator for macOS that lives in your menu bar — like a sticky note for math.
+  一个常驻菜单栏的极简计算器 —— 像便签纸一样随手算。
 </p>
 
 <p align="center">
@@ -21,33 +21,33 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/chenwbyx/CalcSheet/releases">Download</a> ·
-  <a href="https://github.com/chenwbyx/CalcSheet/issues">Report Issue</a>
+  <a href="https://github.com/chenwbyx/CalcSheet/releases">下载</a> ·
+  <a href="https://github.com/chenwbyx/CalcSheet/issues">反馈问题</a>
 </p>
 
 ---
 
-## Features
+## 功能亮点
 
-- **Natural input** — Type expressions like `128 * 3.5` or `sqrt(144)`, get results as you type
-- **Persistent history** — Every calculation stays visible, scroll through your work
-- **Keyboard first** — Global hotkey to show/hide, `⌘R` to clear, `⌘,` for settings
-- **Always on top** — Pin the window to keep it above other apps
-- **Lightweight** — Lives in the menu bar, no Dock icon, stays out of your way
-- **Customizable** — Adjust font size, theme (auto/dark/light), and more
-- **Auto-copy** — Results copied to clipboard automatically (optional)
+- **自然输入** — 直接输入 `128 * 3.5` 或 `sqrt(144)`，边打边出结果
+- **计算历史** — 每一行计算都保留在屏幕上，方便回顾
+- **键盘优先** — 全局快捷键显示/隐藏，`⌘R` 清空，`⌘,` 打开设置
+- **窗口置顶** — 点击图钉按钮，让窗口始终保持在最前面
+- **轻量简洁** — 常驻菜单栏，没有 Dock 图标，不打扰你的工作
+- **自由定制** — 调整字体大小、主题（自动/深色/浅色）等
+- **自动复制** — 计算结果自动复制到剪贴板（可选）
 
-## Screenshots
+## 截图
 
-> TODO: Add screenshots
+> TODO: 补充截图
 
-## Installation
+## 安装
 
-Download the latest release from [GitHub Releases](https://github.com/chenwbyx/CalcSheet/releases), open the `.dmg`, and drag **CalcSheet** to your Applications folder.
+从 [GitHub Releases](https://github.com/chenwbyx/CalcSheet/releases) 下载最新版本，打开 `.dmg`，将 **CalcSheet** 拖入应用程序文件夹。
 
-### Build from Source
+### 从源码编译
 
-Requires macOS 15+ and Xcode 16+.
+需要 macOS 15+ 和 Xcode 16+。
 
 ```bash
 git clone https://github.com/chenwbyx/CalcSheet.git
@@ -55,12 +55,12 @@ cd CalcSheet
 xcodebuild -project CalcSheet.xcodeproj -scheme CalcSheet -configuration Release build
 ```
 
-## Tech Stack
+## 技术栈
 
 - **Swift** + **SwiftUI**
 - macOS 15+
 - [KeyboardShortcuts](https://github.com/sindresorhus/KeyboardShortcuts) by @sindresorhus
 
-## License
+## 开源协议
 
 [MIT](LICENSE) © 2026 xiaobo.chen
