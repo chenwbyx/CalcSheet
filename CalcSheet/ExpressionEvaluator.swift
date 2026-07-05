@@ -14,6 +14,7 @@ private enum Token {
     case number(Double)
     case identifier(String)
     case plus, minus, star, slash, percent, caret
+    case lshift, rshift, ampersand, pipe, tilde
     case lparen, rparen, comma
     case end
 }
@@ -39,7 +40,7 @@ final class ExpressionEvaluator {
         if let cached = cache[trimmed] { return cached }
 
         // 输入校验：只允许数字、运算符、字母、括号、逗号、空格
-        let allowed = CharacterSet(charactersIn: "0123456789+-*/().%^ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_,")
+        let allowed = CharacterSet(charactersIn: "0123456789+-*/().%^<>|&~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_,")
         guard trimmed.unicodeScalars.allSatisfy({ allowed.contains($0) }) else {
             return nil
         }
@@ -120,6 +121,17 @@ final class ExpressionEvaluator {
             case "/": tokens.append(.slash)
             case "%": tokens.append(.percent)
             case "^": tokens.append(.caret)
+            case "<":
+                if i + 1 < chars.count && chars[i + 1] == "<" {
+                    tokens.append(.lshift); i += 1
+                } else { throw ExprError.evalError }
+            case ">":
+                if i + 1 < chars.count && chars[i + 1] == ">" {
+                    tokens.append(.rshift); i += 1
+                } else { throw ExprError.evalError }
+            case "&": tokens.append(.ampersand)
+            case "|": tokens.append(.pipe)
+            case "~": tokens.append(.tilde)
             case "(": tokens.append(.lparen)
             case ")": tokens.append(.rparen)
             case ",": tokens.append(.comma)
@@ -135,14 +147,63 @@ final class ExpressionEvaluator {
     // MARK: 递归下降解析器
     //
     // 运算符优先级（从低到高）：
-    //   1. + -（左结合）
-    //   2. * / %（左结合）
-    //   3. ^（右结合）
-    //   4. 一元 +/-
-    //   5. 数字、常量、函数调用、括号
+    //   1. |（OR，左结合）
+    //   2. &（AND，左结合）
+    //   3. << >>（移位，左结合）
+    //   4. + -（左结合）
+    //   5. * / %（左结合）
+    //   6. ^（右结合）
+    //   7. 一元 +/- ~
+    //   8. 数字、常量、函数调用、括号
 
     private func parseExpression(_ t: [Token], _ i: inout Int) throws -> Double {
-        try parseAddSub(t, &i)
+        try parseBitwiseOr(t, &i)
+    }
+
+    private func parseBitwiseOr(_ t: [Token], _ i: inout Int) throws -> Double {
+        var lhs = try parseBitwiseAnd(t, &i)
+        while true {
+            switch t[i] {
+            case .pipe:
+                i += 1
+                let rhs = try parseBitwiseAnd(t, &i)
+                lhs = Double(Int64(lhs) | Int64(rhs))
+            default:
+                return lhs
+            }
+        }
+    }
+
+    private func parseBitwiseAnd(_ t: [Token], _ i: inout Int) throws -> Double {
+        var lhs = try parseShift(t, &i)
+        while true {
+            switch t[i] {
+            case .ampersand:
+                i += 1
+                let rhs = try parseShift(t, &i)
+                lhs = Double(Int64(lhs) & Int64(rhs))
+            default:
+                return lhs
+            }
+        }
+    }
+
+    private func parseShift(_ t: [Token], _ i: inout Int) throws -> Double {
+        var lhs = try parseAddSub(t, &i)
+        while true {
+            switch t[i] {
+            case .lshift:
+                i += 1
+                let rhs = try parseAddSub(t, &i)
+                lhs = Double(Int64(lhs) << Int64(rhs))
+            case .rshift:
+                i += 1
+                let rhs = try parseAddSub(t, &i)
+                lhs = Double(Int64(lhs) >> Int64(rhs))
+            default:
+                return lhs
+            }
+        }
     }
 
     private func parseAddSub(_ t: [Token], _ i: inout Int) throws -> Double {
@@ -203,6 +264,10 @@ final class ExpressionEvaluator {
         case .plus:
             i += 1
             return try parsePower(t, &i)
+        case .tilde:
+            i += 1
+            let v = try parsePower(t, &i)
+            return Double(~Int64(v))
         default:
             return try parsePrimary(t, &i)
         }
