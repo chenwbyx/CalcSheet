@@ -11,10 +11,7 @@ import KeyboardShortcuts
 // MARK: - 全局快捷键名称
 
 extension KeyboardShortcuts.Name {
-    static let togglePanel = Self(
-        "togglePanel",
-        initial: .init(.c, modifiers: [.option, .shift])
-    )
+    static let togglePanel = Self("togglePanel")
 }
 
 @main
@@ -231,6 +228,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func setupHotKey() {
         // 从旧版 Carbon 存储迁移自定义快捷键
         migrateOldHotkeySettings()
+
+        // 设置默认快捷键（如果没有自定义）
+        if KeyboardShortcuts.getShortcut(for: .togglePanel) == nil {
+            KeyboardShortcuts.setShortcut(
+                .init(.c, modifiers: [.option, .shift]),
+                for: .togglePanel
+            )
+        }
 
         KeyboardShortcuts.onKeyUp(for: .togglePanel) { [weak self] in
             self?.toggle()
