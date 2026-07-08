@@ -31,9 +31,8 @@ struct ContentView: View {
                         Image(systemName: settings.isPinned ? "pin.fill" : "pin")
                             .font(.system(size: 15))
                             .foregroundStyle(settings.isPinned ? Color.accentColor : .secondary)
-                            .frame(width: 28, height: 28)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(ToolbarButtonStyle())
                     .help(settings.isPinned ? NSLocalizedString("tooltip.pin.on", comment: "") : NSLocalizedString("tooltip.pin.off", comment: ""))
                     .keyboardShortcut("p", modifiers: .command)
 
@@ -43,9 +42,8 @@ struct ContentView: View {
                         Image(systemName: "trash")
                             .font(.system(size: 15))
                             .foregroundStyle(.secondary)
-                            .frame(width: 28, height: 28)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(ToolbarButtonStyle())
                     .keyboardShortcut("r", modifiers: .command)
                     .help(NSLocalizedString("tooltip.clear", comment: ""))
                 }
@@ -189,6 +187,43 @@ struct ContentView: View {
 
     private func openSettings() {
         NotificationCenter.default.post(name: .openSettings, object: nil)
+    }
+}
+
+// MARK: - Toolbar 按钮样式（模拟 Apple 原生 hover 效果）
+
+struct ToolbarButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        ToolbarButtonBody(configuration: configuration)
+    }
+
+    private struct ToolbarButtonBody: View {
+        let configuration: Configuration
+        @State private var isHovered = false
+
+        var body: some View {
+            configuration.label
+                .frame(width: 28, height: 28)
+                .background(
+                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                        .fill(backgroundColor)
+                )
+                .onHover { hovering in
+                    withAnimation(.easeInOut(duration: 0.15)) {
+                        isHovered = hovering
+                    }
+                }
+        }
+
+        private var backgroundColor: Color {
+            if configuration.isPressed {
+                return Color.primary.opacity(0.15)
+            } else if isHovered {
+                return Color.primary.opacity(0.08)
+            } else {
+                return Color.clear
+            }
+        }
     }
 }
 

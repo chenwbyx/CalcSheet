@@ -57,6 +57,7 @@ struct CalcLineView: View {
                     .font(.custom(editorFont, size: fontSize * 0.92))
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
+                    .textSelection(.enabled)
                     .transition(.opacity.combined(with: .move(edge: .trailing)))
             }
         }
